@@ -18,22 +18,34 @@ const app = express();
 
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 
+const strictCspOptions = {
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc:  ["'self'"],
+      styleSrc:   ["'self'", "'unsafe-inline'"],
+      imgSrc:     ["'self'", 'data:'],
+      connectSrc: ["'self'", clientUrl],
+    },
+  },
+};
+
+const relaxedCspOptions = {
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'", '*'],
+      scriptSrc:  ["'self'", "'unsafe-inline'", "'unsafe-eval'", '*'],
+      styleSrc:   ["'self'", "'unsafe-inline'", '*'],
+      imgSrc:     ['*', 'data:'],
+      connectSrc: ['*'],
+    },
+    reportOnly: true,
+  },
+};
+
 app.use((req, res, next) => {
-  if (defenseConfig.cspEnabled) {
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc:  ["'self'"],
-          styleSrc:   ["'self'", "'unsafe-inline'"],
-          imgSrc:     ["'self'", 'data:'],
-          connectSrc: ["'self'", clientUrl],
-        },
-      },
-    })(req, res, next);
-  } else {
-    helmet({ contentSecurityPolicy: false })(req, res, next);
-  }
+  const options = defenseConfig.cspEnabled ? strictCspOptions : relaxedCspOptions;
+  helmet(options)(req, res, next);
 });
 
 app.use(cors({

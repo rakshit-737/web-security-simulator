@@ -8,8 +8,14 @@ async function login(req, res) {
     return res.status(400).json({ error: 'Username and password are required' });
   }
 
+  if (typeof username !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ error: 'Invalid input types' });
+  }
+
+  const sanitizedUsername = username.trim().slice(0, 64);
+
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: sanitizedUsername });
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
     const match = await user.comparePassword(password);

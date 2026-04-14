@@ -19,7 +19,7 @@ const ATTACK_TYPES = [
   {
     type: 'brute-force',
     label: 'Brute Force',
-    description: 'Repeatedly attempts credentials to gain unauthorised access.',
+    description: 'Repeatedly attempts credentials to gain unauthorized access.',
     payloadExample: null,
   },
   {

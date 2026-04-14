@@ -11,7 +11,7 @@ const SQL_PATTERNS = [
   /OR\s+1\s*=\s*1/i,
   /OR\s+'[^']*'\s*=\s*'[^']*'/i,
   /UNION\s+(ALL\s+)?SELECT/i,
-  /\/\*.*\*\//,
+  /\/\*/,
   /xp_cmdshell/i,
   /EXEC\s*\(/i,
 ];
@@ -24,7 +24,7 @@ const XSS_PATTERNS = [
   /onmouseover\s*=/i,
   /javascript\s*:/i,
   /<iframe/i,
-  /<img[^>]+src\s*=\s*["']?javascript:/i,
+  /<img\b[^>]{0,200}src\s{0,10}=\s{0,10}["']?\s{0,10}javascript:/i,
   /document\.cookie/i,
   /eval\s*\(/i,
   /alert\s*\(/i,
