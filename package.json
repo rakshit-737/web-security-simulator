@@ -1,0 +1,17 @@
+{
+  "name": "zt-wss",
+  "version": "1.0.0",
+  "description": "ZeroTrust Web Security Simulator",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "seed": "cd server && npm run seed",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && npm run preview"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
